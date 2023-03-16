@@ -1,0 +1,18 @@
+---
+import axios from "axios";
+import IndexContent from "./components/IndexContent.svelte";
+import { shared } from "./lib/shared";
+
+const response = await axios.get(
+	"https://frankfurt.kapeli.com/feeds/zzz/user_contributed/build/index.json"
+);
+const docsets = response.data.docsets;
+
+const lockFile = shared.context?.getLockedContent();
+console.log(lockFile)
+---
+
+<div>
+	<h1>Documentation Downloader</h1>
+	<IndexContent client:load docsets={docsets} lockFile={lockFile}></IndexContent>
+</div>
