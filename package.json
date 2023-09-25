@@ -20,7 +20,6 @@
   "devDependencies": {
     "@astrojs/svelte": "^2.1.0",
     "@tsconfig/svelte": "^3.0.0",
-    "@underflow/types": "^1.0.0",
     "astro": "^2.1.0"
   }
 }

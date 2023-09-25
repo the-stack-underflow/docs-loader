@@ -1,5 +1,6 @@
 import SvelteLogo from "../icons/svelte-logo.svg";
 import PHPLogo from "../icons/php-logo.svg";
+import ZigLogo from "../icons/zig-logo.png";
 
 export interface Docset {
   description: string;
@@ -28,4 +29,13 @@ export default [{
 	"remote": "",
 	"icon": PHPLogo,
 	"link": "/dock/php"
+},
+{
+	"description": "Detailed information on syntax, data types, standard library functions, and usage of the Zig programming language. It includes examples and best practices to help developers become proficient in writing efficient, safe, and elegant code with Zig.",
+	"title": "Zig",
+	"name": "official:zig",
+	"version": "0.0.1",
+	"remote": "",
+	"icon": ZigLogo,
+	"link": "/dock/zig"
 }]

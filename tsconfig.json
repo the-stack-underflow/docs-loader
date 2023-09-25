@@ -17,7 +17,7 @@
 		"strict": true,
 		"types": ["svelte"],
 		"importsNotUsedAsValues": "error",
-		"allowSyntheticDefaultImports": true
+		"allowSyntheticDefaultImports": true,
 	},
 	"include": ["./src/*"]
 }

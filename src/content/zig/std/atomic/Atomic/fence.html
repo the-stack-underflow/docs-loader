@@ -1,0 +1,19 @@
+<!doctype html><html lang=en><!-- Online page at https://ziglang.org/documentation/0.10.0/std/#root;atomic.Atomic.fence --><head> <meta charset=utf-8> <meta name=viewport content="width=device-width,initial-scale=1"> <title>fence</title> <link href=../../../style.css rel=stylesheet></head> <body class=canvas> <div class=banner> This is a beta autodoc build; expect bugs and missing information.</div> <div class=flex-main> <div id=docs class=flex-right> <div class=wrap> <section class=docs> <div style=position:relative> </div> <div id=sectNav class=""><ul id=listNav><li><a href=../../../std.html class="">std</a></li><li><a href=../../../std/atomic.html class="">atomic</a></li><li><a href=../../../std/atomic/Atomic.html class="">Atomic</a></li><li><a href=fence.html class=active>fence</a></li></ul></div> <div id=fnProto class=""> <div class=mobile-scroll-container><pre id=fnProtoCode class=scroll-item><a target=_blank href=https://ziglang.org/documentation/0.10.0/std/src/atomic/Atomic.zig.html#L41>fence</a>(<span class=argBreaker><br>&nbsp;&nbsp;&nbsp;&nbsp;</span>self: <span class=tok-kw>*Self</span>, <span class=argBreaker><br>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class=tok-kw>comptime</span> ordering: <a href=""><span class=tok-kw style=color:#add8e6>Ordering</span></a><span class=argBreaker>,<br></span>) callconv(.undefined) <span class=tok-type>void</span></pre></div> </div> <div id=tldDocs class=""><p> Perform an atomic fence which uses the atomic value as a hint for the modification order. Use this when you want to imply a fence on an atomic variable without necessarily performing a memory access. </p> <p> Example: </p> <pre><code>const RefCount = struct {
+    count: Atomic(usize),
+    dropFn: *const fn(*RefCount) void,
+
+    fn ref(self: *RefCount) void {
+        _ =  self.count.fetchAdd(1, .Monotonic); // no ordering necessary, just updating a counter
+    }
+
+    fn unref(self: *RefCount) void {
+        // Release ensures code before unref() happens-before the count is decremented as dropFn could be called by then.
+        if (self.count.fetchSub(1, .Release)) {
+            // Acquire ensures count decrement and code before previous unrefs()s happens-before we call dropFn below.
+            // NOTE: another alterative is to use .AcqRel on the fetchSub count decrement but it's extra barrier in possibly hot path.
+            self.count.fence(.Acquire);
+            (self.dropFn)(self);
+        }
+    }
+};
+</code></pre> </div> <div id=sectParams class=""> <a name=//apple_ref/cpp/Section/Parameters class=dashAnchor></a><h2>Parameters</h2> <div id=listParams><div><pre>self: <span class=tok-kw>*Self</span>,</pre></div><div><pre>ordering: <span class=tok-kw>Ordering</span>,</pre></div></div> </div> </section> </div> <div class=flex-filler></div> </div> </div> </body></html>
